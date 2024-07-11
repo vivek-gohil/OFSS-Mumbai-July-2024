@@ -1,0 +1,39 @@
+These exercises cover basic file permissions in Unix/Linux, including viewing, modifying, and interpreting permissions, as well as changing ownership. Understanding these concepts is essential for managing file access and security on Unix/Linux systems.
+### Exercise on Basic File Permissions
+
+#### Exercise 1: Viewing File Permissions
+1. **Create a new file named `example.txt`**:
+2. **View the permissions of `example.txt`**:
+3. **Interpret the permission string (e.g., `-rw-r--r--`) and identify the following**:
+    - File type (e.g., `-` for a regular file, `d` for a directory).
+    - Owner's permissions.
+    - Group's permissions.
+    - Other users' permissions
+#### Exercise 2: Changing File Permissions
+1. **Grant execute permission to the owner of `example.txt`**
+2. **Verify the changes**:
+3. **Remove write permission for the group**:
+4. **Verify the changes**:
+5. **Grant read permission to all users**:
+6. **Verify the changes**:
+#### Exercise 3: Using Symbolic and Numeric Modes
+1. **Change permissions using symbolic mode**:
+    - Make the file readable, writable, and executable by the owner, and readable and executable by the group and others:
+2. **Verify the changes**:
+3. **Change permissions using numeric mode**:
+4. **Verify the changes**:
+#### Exercise 4: Directory Permissions
+1. **Create a new directory named `testdir`**:
+2. **Set the directory permissions to allow the owner full access, the group read and execute access, and no access for others**:
+3. **Verify the changes**:
+4. **Create a file inside `testdir` and attempt to list its contents as a different user**:
+5. **Try accessing `testdir` as a different user (use `su` if necessary)**:
+#### Exercise 5: Changing Ownership
+1. **Check the current owner and group of `example.txt`**:
+2. **Change the owner of `example.txt` to another user (requires superuser privileges)**:
+3. **Verify the changes**:
+4. **Change the group of `example.txt`**:
+5. **Verify the changes**:
+
+
+ 
