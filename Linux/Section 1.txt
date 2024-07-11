@@ -1,0 +1,9 @@
+1. Create a directory called "Documents" and navigate into it. Inside the "Documents" directory, create two subdirectories called "Work" and "Personal".
+2. Create a file called "report.doc" inside the "Work" directory and another file called "diary.txt" inside the "Personal" directory. Write some text content to each file.
+3. Copy the "report.doc" file from the "Work" directory to the "Personal" directory.
+4. Rename the copied file from "report.doc" to "work_report.doc" in the "Personal" directory.
+5. Cut the "diary.txt" file from the "Personal" directory and paste it into the "Work" directory.
+6. Create a directory called "Backup" in the parent directory and move both the "work_report.doc" file and the "diary.txt" file into the "Backup" directory.
+7. Remove the original "Work" and "Personal" directories, along with their contents.
+8. Move the "latest_report.doc" file from the "Work" directory to the parent directory.
+9. List all files and directories in the current directory, including hidden files
