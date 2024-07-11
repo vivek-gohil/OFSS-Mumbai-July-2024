@@ -1,0 +1,34 @@
+
+### Exercise 1: Basic Editing
+1. **Create and open a new file called `exercise1.txt`**:
+2. **Insert the following text**:
+    ```
+    This is the first line.
+    This is the second line.
+    This is the third line.
+    ```
+3. **Save and exit**:
+### Exercise 2: Navigation and Deletion
+1. **Open the file `exercise1.txt`**:
+2. **Move to the first line** and **delete the entire line**:
+3. **Undo the deletion**:
+4. **Save and exit**:
+### Exercise 3: Inserting and Replacing Text
+1. **Open the file `exercise1.txt`**:
+2. **Move to the second line** and **insert the word "modified" before "second"**:
+3. **Replace the word "third" with "final"**:
+4. **Save and exit**:
+### Exercise 4: Copying and Pasting
+1. **Open the file `exercise1.txt`**:
+2. **Copy the first line and paste it at the end of the file**:
+3. **Save and exit**:
+### Exercise 5: Searching and Replacing Text
+1. **Open the file `exercise1.txt`**:
+2. **Search for the word "second"**:
+3. **Replace all occurrences of "second" with "2nd"**:
+4. **Save and exit**:
+### Exercise 6: Using Visual Mode
+1. **Open the file `exercise1.txt`**:
+2. **Enter Visual Line Mode**:
+3. **Select the first two lines** and **move them below the third line**:
+4. **Save and exit**:
