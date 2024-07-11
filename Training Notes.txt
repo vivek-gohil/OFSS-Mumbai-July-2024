@@ -1,0 +1,17 @@
+https://github.com/vivek-gohil/OFSS-Mumbai-July-2024
+
+Oracle Database SQL
+RDBMS
+Create tables - Datatypes
+Alter table - add column,delete column,change datatype
+Drop table
+Insert Records
+Update Table Records
+Delete Records
+Constraints
+	Primary Key
+	Foreign Key
+	Check
+	Not Null
+	Default
+	Unique
