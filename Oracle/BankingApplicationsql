@@ -226,40 +226,70 @@ SELECT * FROM customer_details;
 
 SELECT * FROM login_details WHERE login_id = (
 SELECT login_id FROM customer_details WHERE customer_id = 1)
-AND password = 'Bahubali@123';
+AND password = 'Bahubali@1234';
 
 
 
-CREATE OR REPLACE PROCEDURE sp_login_validation(p_customer_id NUMBER,p_password VARCHAR2,flag NUMBER)
+CREATE OR REPLACE PROCEDURE sp_login_validation(p_customer_id IN NUMBER,p_password IN VARCHAR2,flag IN OUT NUMBER)
 AS
     r_login_details login_details%ROWTYPE;
+    login_id_row_count NUMBER(1);
 BEGIN
-    SELECT * INTO r_login_details  FROM login_details WHERE login_id = (
-    SELECT login_id FROM customer_details WHERE customer_id = p_customer_id)
-    AND password = p_password;
+    SELECT COUNT(login_id) INTO login_id_row_count FROM login_details WHERE login_id = (
+        SELECT login_id FROM customer_details WHERE customer_id = p_customer_id);
     
-    -- in case of valid login_id/customer_id and password 
-    IF r_login_details.login_attempts <= 3 AND r_login_details.login_status = 'ACTIVE' THEN
-        flag := 1;
+    IF login_id_row_count = 1 THEN
+         DBMS_OUTPUT.PUT_LINE('Valid customer_id , now cheking password');
+         
+         SELECT COUNT(login_id) INTO login_id_row_count FROM login_details WHERE login_id = (
+            SELECT login_id FROM customer_details WHERE customer_id = p_customer_id)
+            AND password = p_password;
+    
+        IF login_id_row_count = 1 THEN 
+            DBMS_OUTPUT.PUT_LINE('login successfull');
+            flag := 1;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('incorrect password return 0');
+            flag := 0;
+            
+            SELECT * INTO r_login_details FROM login_details WHERE login_id = (
+                SELECT login_id FROM customer_details WHERE customer_id = p_customer_id);
+            
+            IF r_login_details.login_attempts < 3 AND r_login_details.login_status = 'ACTIVE' THEN
+                UPDATE login_details SET login_attempts = login_attempts + 1 WHERE login_id = r_login_details.login_id;
+                COMMIT;
+            END IF;
+            
+             SELECT * INTO r_login_details FROM login_details WHERE login_id = (
+                SELECT login_id FROM customer_details WHERE customer_id = p_customer_id);
+                
+            IF r_login_details.login_attempts = 3 THEN
+                UPDATE login_details SET login_status = 'LOCKED' WHERE login_id = r_login_details.login_id;
+                COMMIT;
+                DBMS_OUTPUT.PUT_LINE('blocked');
+            END IF;
+                        
+        END IF;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Invalid customer_id return -1');
+        flag := -1;
     END IF;
     
-    IF r_loing_details.
-    
-    EXCEPTION 
-        WHEN NO_DATA_FOUND THEN
-            dbms_output.put_line('Customer ' || l_customer_id ||  ' does not exist');
-            flag := -1;
 END;
 /
 
 SET SERVEROUTPUT ON;
 
 DECLARE
-    customer_id NUMBER(10) := 133;
-    password VARCHAR(20) := 'Bahubali@012';
+    customer_id NUMBER(10) := 1;
+    password VARCHAR(20) := 'Bahubali@123';
     flag NUMBER(1) := -1;
 BEGIN
     sp_login_validation(customer_id,password,flag);
-    dbms_output.put_line(flag);
+    DBMS_OUTPUT.PUT_LINE(flag);
 END;
 /
+
+SELECT * FROM login_details;
+
+
