@@ -151,11 +151,12 @@ INSERT INTO fixed_deposit_details VALUES(5,50000,55000,1);
 SELECT * FROM fixed_deposit_details;
 
 -- cheque_details
+DROP TABLE cheque_details;
 CREATE TABLE cheque_details(
     cheque_id NUMBER(10) GENERATED ALWAYS AS IDENTITY,
-    receiver_name VARCHAR(50) NOT NULL,
-    cheque_date DATE NOT NULL,
-    amount NUMBER(10,2) NOT NULL,
+    receiver_name VARCHAR(50),
+    cheque_date DATE,
+    amount NUMBER(10,2),
     account_id NUMBER(10) NOT NULL,
     cheque_status VARCHAR(50) NOT NULL,
     CONSTRAINT cheque_status_ck CHECK(cheque_status IN ('NEW','ISSUED','DEPOSITED','CLEARED','BOUNCED')),
@@ -186,3 +187,79 @@ CREATE TABLE transaction_details(
     CONSTRAINT transaction_type_ck CHECK(transaction_type IN('TRANSFER','CHEQUE_CLEARANCE','OVERDRAFT_CHARES','INTEREST_CREDIT'))
 );
 
+-- Generate Cheques 
+SELECT * FROM account_details;
+SELECT * FROM cheque_details;
+DESC cheque_details;
+
+CREATE PROCEDURE sp_generate_cheques(account_id NUMBER)
+AS
+BEGIN
+  FOR l_counter IN 1..10
+  LOOP
+    INSERT INTO cheque_details(account_id,cheque_status) VALUES(account_id,'NEW');
+  END LOOP;
+END;
+/
+
+CREATE OR REPLACE TRIGGER tg_insert_account_details
+AFTER 
+INSERT 
+ON account_details
+FOR EACH ROW
+BEGIN
+    sp_generate_cheques(:NEW.account_id);
+END;
+/
+
+DESC account_details;
+INSERT INTO account_details(customer_id,account_type,balance)
+VALUES(1,'CURRENT',10000);
+
+SELECT * FROM account_details;
+SELECT * FROM cheque_details;
+
+
+-- login validation
+SELECT * FROM login_details;
+SELECT * FROM customer_details;
+
+SELECT * FROM login_details WHERE login_id = (
+SELECT login_id FROM customer_details WHERE customer_id = 1)
+AND password = 'Bahubali@123';
+
+
+
+CREATE OR REPLACE PROCEDURE sp_login_validation(p_customer_id NUMBER,p_password VARCHAR2,flag NUMBER)
+AS
+    r_login_details login_details%ROWTYPE;
+BEGIN
+    SELECT * INTO r_login_details  FROM login_details WHERE login_id = (
+    SELECT login_id FROM customer_details WHERE customer_id = p_customer_id)
+    AND password = p_password;
+    
+    -- in case of valid login_id/customer_id and password 
+    IF r_login_details.login_attempts <= 3 AND r_login_details.login_status = 'ACTIVE' THEN
+        flag := 1;
+    END IF;
+    
+    IF r_loing_details.
+    
+    EXCEPTION 
+        WHEN NO_DATA_FOUND THEN
+            dbms_output.put_line('Customer ' || l_customer_id ||  ' does not exist');
+            flag := -1;
+END;
+/
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    customer_id NUMBER(10) := 133;
+    password VARCHAR(20) := 'Bahubali@012';
+    flag NUMBER(1) := -1;
+BEGIN
+    sp_login_validation(customer_id,password,flag);
+    dbms_output.put_line(flag);
+END;
+/
