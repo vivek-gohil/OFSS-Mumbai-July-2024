@@ -19,14 +19,19 @@ public class AccountApplicationMain {
         System.out.println("Enter balance");
         double balance = scanner.nextDouble();
 
-        Account firstAccount = new Account();
-        firstAccount.setAccountNumber(accountNumber);
-        firstAccount.setName(name);
-        firstAccount.setBalance(balance);
+        //default constructor
+        // Account firstAccount = new Account();
+        // firstAccount.setAccountNumber(accountNumber);
+        // firstAccount.setName(name);
+        // firstAccount.setBalance(balance);
 
-        System.out.println("Account Number :: " + firstAccount.getAccountNumber());
-        System.out.println("Name :: " + firstAccount.getName());
-        System.out.println("Balance :: " + firstAccount.getBalance());
+        Account firstAccount = new Account(accountNumber, name, balance);
+
+        // System.out.println("Account Number :: " + firstAccount.getAccountNumber());
+        // System.out.println("Name :: " + firstAccount.getName());
+        // System.out.println("Balance :: " + firstAccount.getBalance());
+
+        System.out.println(firstAccount.toString());
 
     }
 }
