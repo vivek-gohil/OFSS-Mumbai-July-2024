@@ -56,6 +56,34 @@ public class EmployeeCRUDMain {
                         System.out.println("Failed to add new employee");
 
                     break;
+                case 2:
+                    System.out.println("Enter employeeId");
+                    employeeId = scanner.nextInt();
+                    System.out.println("Enter New first name");
+                    firstName = scanner.next();
+                    System.out.println("Enter New last name");
+                    lastName = scanner.next();
+                    System.out.println("Enter New salary");
+                    salary = scanner.nextDouble();
+
+                    Employee updateEmployee = new Employee(employeeId, firstName, lastName, salary);
+                    result = employeeService.updateEmployee(updateEmployee);
+                    if (result)
+                        System.out.println("Employee updated successfully");
+                    else
+                        System.out.println("Failed to update employee");
+
+                    break;
+                case 3:
+                    System.out.println("Enter employeeId");
+                    employeeId = scanner.nextInt();
+                    result = employeeService.deleteEmployeeByEmployeeId(employeeId);
+                    if (result)
+                        System.out.println("Employee updated successfully");
+                    else
+                        System.out.println("Failed to update employee");
+
+                    break;
                 default:
                     System.out.println("Invalid Choice");
                     break;

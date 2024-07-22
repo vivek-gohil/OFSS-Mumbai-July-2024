@@ -28,14 +28,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean updateEmployee(Employee employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEmployee'");
+        return employeeRepository.updateEmployee(employee);
     }
 
     @Override
     public boolean deleteEmployeeByEmployeeId(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteEmployeeByEmployeeId'");
+        return employeeRepository.deleteEmployeeByEmployeeId(employeeId);
     }
 
 }

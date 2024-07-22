@@ -27,6 +27,8 @@ public class EmployeeRepostioryImpl implements EmployeeRepository {
     private static final String SELECT_ALL_EMPLOYEES = "SELECT * FROM employee_details";
     private static final String SELECT_ONE_EMPLOYEE = "SELECT * FROM employee_details WHERE employee_id = ?";
     private static final String INSERT_NEW_EMPLOYEE ="INSERT INTO employee_details(first_name,last_name,salary) VALUES(?,?,?)";
+    private static final String UPDATE_EMPLOYEE = "UPDATE employee_details SET first_name=?,last_name=?,salary=? WHERE employee_id=?";
+    private static final String DELETE_EMPLOYEE = "DELETE FROM employee_details WHERE employee_id=?";
     @Override
     public List<Employee> getAllEmployees() {
         try {
@@ -133,14 +135,65 @@ public class EmployeeRepostioryImpl implements EmployeeRepository {
 
     @Override
     public boolean updateEmployee(Employee employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEmployee'");
+        try {
+            Class.forName(driverName);
+            connection = DriverManager.getConnection(url, userName, password);
+            preparedStatement = connection.prepareStatement(UPDATE_EMPLOYEE);
+            preparedStatement.setString(1, employee.getFirstName());
+            preparedStatement.setString(2, employee.getLastName());
+            preparedStatement.setDouble(3, employee.getSalary());
+            preparedStatement.setInt(4, employee.getEmployeeId());
+
+            int rowCount= preparedStatement.executeUpdate();
+
+            if (rowCount > 0) {
+                return true;
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("Failed to load driver");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Failed to connect database");
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close connection");
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean deleteEmployeeByEmployeeId(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteEmployeeByEmployeeId'");
+        try {
+            Class.forName(driverName);
+            connection = DriverManager.getConnection(url, userName, password);
+            preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE);
+            preparedStatement.setInt(1, employeeId);
+
+            int rowCount= preparedStatement.executeUpdate();
+
+            if (rowCount > 0) {
+                return true;
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("Failed to load driver");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Failed to connect database");
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close connection");
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
 }
