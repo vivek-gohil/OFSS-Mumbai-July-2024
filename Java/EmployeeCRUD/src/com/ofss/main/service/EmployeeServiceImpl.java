@@ -18,8 +18,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeByEmployeeId(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEmployeeByEmployeeId'");
+        return employeeRepository.getEmployeeByEmployeeId(employeeId);
     }
 
     @Override

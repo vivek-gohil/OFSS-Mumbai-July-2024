@@ -10,22 +10,22 @@ import java.util.List;
 
 import com.ofss.main.domain.Employee;
 
-public class EmployeeRepostioryImpl implements EmployeeRepository{
+public class EmployeeRepostioryImpl implements EmployeeRepository {
 
     private static final String driverName = "com.mysql.cj.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306/learningdb";
     private static final String userName = "root";
     private static final String password = "root";
 
-    //connect to database
+    // connect to database
     private Connection connection = null;
-    //store and execute query
-    private PreparedStatement preparedStatement= null;
-    //store result retrived from database
+    // store and execute query
+    private PreparedStatement preparedStatement = null;
+    // store result retrived from database
     private ResultSet resultSet = null;
 
     private static final String SELECT_ALL_EMPLOYEES = "SELECT * FROM employee_details";
-
+    private static final String SELECT_ONE_EMPLOYEE = "SELECT * FROM employee_details WHERE employee_id = ?";
 
     @Override
     public List<Employee> getAllEmployees() {
@@ -36,7 +36,7 @@ public class EmployeeRepostioryImpl implements EmployeeRepository{
             resultSet = preparedStatement.executeQuery();
 
             List<Employee> employeeList = new ArrayList<>();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 int employeeId = resultSet.getInt("employee_id");
                 String firstname = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
@@ -51,16 +51,52 @@ public class EmployeeRepostioryImpl implements EmployeeRepository{
             System.out.println("Failed to load driver");
             e.printStackTrace();
         } catch (SQLException e) {
-           System.out.println("Failed to connect database");
+            System.out.println("Failed to connect database");
             e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close connection");
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     @Override
     public Employee getEmployeeByEmployeeId(int employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEmployeeByEmployeeId'");
+        try {
+            Class.forName(driverName);
+            connection = DriverManager.getConnection(url, userName, password);
+            preparedStatement = connection.prepareStatement(SELECT_ONE_EMPLOYEE);
+            preparedStatement.setInt(1, employeeId);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int eId = resultSet.getInt("employee_id");
+                String firstname = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                double salary = resultSet.getDouble("salary");
+
+                Employee employee = new Employee(eId, firstname, lastName, salary);
+                return employee;
+            }
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Failed to load driver");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Failed to connect database");
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close connection");
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
