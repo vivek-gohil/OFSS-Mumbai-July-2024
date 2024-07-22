@@ -39,6 +39,7 @@ public class EmployeeCRUDMain {
                         System.out.println(employee);
                     else
                         System.out.println("Invalid employeeeId");
+                    break;
                 default:
                     System.out.println("Invalid Choice");
                     break;
