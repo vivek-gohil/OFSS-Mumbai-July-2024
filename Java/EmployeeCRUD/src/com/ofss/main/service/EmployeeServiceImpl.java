@@ -23,8 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean addNewEmployee(Employee employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addNewEmployee'");
+       return employeeRepository.addNewEmployee(employee);
     }
 
     @Override

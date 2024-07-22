@@ -26,7 +26,7 @@ public class EmployeeRepostioryImpl implements EmployeeRepository {
 
     private static final String SELECT_ALL_EMPLOYEES = "SELECT * FROM employee_details";
     private static final String SELECT_ONE_EMPLOYEE = "SELECT * FROM employee_details WHERE employee_id = ?";
-
+    private static final String INSERT_NEW_EMPLOYEE ="INSERT INTO employee_details(first_name,last_name,salary) VALUES(?,?,?)";
     @Override
     public List<Employee> getAllEmployees() {
         try {
@@ -102,8 +102,33 @@ public class EmployeeRepostioryImpl implements EmployeeRepository {
 
     @Override
     public boolean addNewEmployee(Employee employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addNewEmployee'");
+        try {
+            Class.forName(driverName);
+            connection = DriverManager.getConnection(url, userName, password);
+            preparedStatement = connection.prepareStatement(INSERT_NEW_EMPLOYEE);
+            preparedStatement.setString(1, employee.getFirstName());
+            preparedStatement.setString(2, employee.getLastName());
+            preparedStatement.setDouble(3, employee.getSalary());
+            int rowCount= preparedStatement.executeUpdate();
+
+            if (rowCount > 0) {
+                return true;
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("Failed to load driver");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Failed to connect database");
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Failed to close connection");
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     @Override

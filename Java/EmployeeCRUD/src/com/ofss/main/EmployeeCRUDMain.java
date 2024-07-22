@@ -40,13 +40,29 @@ public class EmployeeCRUDMain {
                     else
                         System.out.println("Invalid employeeeId");
                     break;
+                case 1:
+                    System.out.println("Enter first name");
+                    String firstName = scanner.next();
+                    System.out.println("Enter last name");
+                    String lastName = scanner.next();
+                    System.out.println("Enter salary");
+                    double salary = scanner.nextDouble();
+
+                    Employee insertEmployee = new Employee(0, firstName, lastName, salary);
+                    boolean result = employeeService.addNewEmployee(insertEmployee);
+                    if (result)
+                        System.out.println("Employee added successfully");
+                    else
+                        System.out.println("Failed to add new employee");
+
+                    break;
                 default:
                     System.out.println("Invalid Choice");
                     break;
             }
             System.out.println("Do you want to continue");
             continueChoice = scanner.next();
-        } while (continueChoice.equals("Yes"));
+        } while (continueChoice.equalsIgnoreCase("Yes"));
 
     }
 }
