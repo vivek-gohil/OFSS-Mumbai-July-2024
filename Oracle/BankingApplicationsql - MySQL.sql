@@ -1,4 +1,4 @@
-CREATE DATABASE i_nb; 
+CREATE DATABASE i_nb;
 
 USE i_nb;
 
@@ -10,7 +10,7 @@ CREATE TABLE login_details(
     login_attempts INT NOT NULL,
     login_status VARCHAR(10) NOT NULL,
     CONSTRAINT login_id_pk PRIMARY KEY(login_id),
-    CONSTRAINT login_status_ck CHECK (login_status IN( 'ACTIVE','LOCKED'))
+    CONSTRAINT login_status_ck CHECK (login_status IN( 'NEW','ACTIVE','LOCKED'))
 );
 
 INSERT INTO login_details(password,login_attempts,login_status) VALUES ('Bahubali@123',0,'ACTIVE');

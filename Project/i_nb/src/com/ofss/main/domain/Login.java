@@ -1,7 +1,7 @@
 package com.ofss.main.domain;
 
 public class Login {
-    private String loginId;
+    private int loginId;
     private String password;
     private int loginAttempts;
     private String loginStatus;
@@ -10,18 +10,22 @@ public class Login {
 
     }
 
-    public Login(String loginId, String password, int loginAttempts, String loginStatus) {
+    public Login(String password) {
+        this.password = password;
+    }
+
+    public Login(int loginId, String password, int loginAttempts, String loginStatus) {
         this.loginId = loginId;
         this.password = password;
         this.loginAttempts = loginAttempts;
         this.loginStatus = loginStatus;
     }
 
-    public String getLoginId() {
+    public int getLoginId() {
         return loginId;
     }
 
-    public void setLoginId(String loginId) {
+    public void setLoginId(int loginId) {
         this.loginId = loginId;
     }
 

@@ -9,6 +9,10 @@ public class Account {
     public Account() {
     }
 
+    public Account(Customer customer, String accountType) {
+        this.customer = customer;
+        this.accountType = accountType;
+    }
     public Account(int accountId, Customer customer, String accountType, double balance) {
         this.accountId = accountId;
         this.customer = customer;

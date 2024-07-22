@@ -1,11 +1,16 @@
 package com.ofss.main.domain;
 
-public class Current extends Account{
+public class Current extends Account {
+
     private double overdraftBalance;
     private double remainingOverdraftBalance;
     private double minimumBalance;
-    
+
     public Current() {
+    }
+
+    public Current(Customer customer, String accountType) {
+        super(customer, accountType);
     }
 
     public Current(int accountId, Customer customer, String accountType, double balance, double overdraftBalance,
@@ -38,7 +43,4 @@ public class Current extends Account{
                 + ", getBalance()=" + getBalance() + "]";
     }
 
-    
-
-    
 }

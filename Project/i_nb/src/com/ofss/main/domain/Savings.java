@@ -8,6 +8,10 @@ public class Savings extends Account {
     public Savings() {
     }
 
+    
+    public Savings(Customer customer, String accountType) {
+        super(customer, accountType);
+    }
 
     public Savings(int accountId, Customer customer, String accountType, double balance, double rateOfInterest,
             double minimumBalance) {

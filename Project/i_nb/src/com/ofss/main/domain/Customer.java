@@ -1,6 +1,7 @@
 package com.ofss.main.domain;
 
 public class Customer {
+
     private int customerId;
     private String firstName;
     private String lastName;
@@ -11,6 +12,16 @@ public class Customer {
     private String customerStatus;
 
     public Customer() {
+    }
+
+    public Customer(String firstName, String lastName, String gneder, String email, String mobile,
+            Login login) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gneder = gneder;
+        this.email = email;
+        this.mobile = mobile;
+        this.login = login;
     }
 
     public Customer(int customerId, String firstName, String lastName, String gneder, String email, String mobile,
