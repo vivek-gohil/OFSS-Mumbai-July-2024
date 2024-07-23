@@ -35,8 +35,6 @@ public class BankingApplicationMain {
             System.out.println("Your customerId :: " + customer.getCustomerId());
             System.out.println();
 
-            
-
         } else {
             System.out.println("Thank you!");
         }

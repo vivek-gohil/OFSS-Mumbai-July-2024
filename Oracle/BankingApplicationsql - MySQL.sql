@@ -20,6 +20,7 @@ INSERT INTO login_details(password,login_attempts,login_status) VALUES ('Changem
 INSERT INTO login_details(password,login_attempts,login_status) VALUES ('Changeme@123',0,'ACTIVE');
 
 SELECT * FROM login_details;
+TRUNCATE TABLE login_details;
 
 -- customer_details
 DROP TABLE customer_details;
@@ -49,7 +50,7 @@ INSERT INTO customer_details(first_name,last_name,gender,email,mobile,login_id,c
 VALUES('Gurubux','Gill','Male','gurubux.gill@hotmail.com',9432113122,5,'NEW');
 
 SELECT * FROM customer_details;
-
+TRUNCATE TABLE customer_details;
 -- account_details
 DROP TABLE account_details;
 
