@@ -1,13 +1,12 @@
 package com.ofss.main.repository.impl;
 
+import com.ofss.main.domain.Current;
+import com.ofss.main.repository.CurrentRepository;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.ofss.main.domain.Current;
-import com.ofss.main.repository.CurrentRepository;
 
 public class CurrentRepositoryImpl implements CurrentRepository {
 
@@ -30,7 +29,7 @@ public class CurrentRepositoryImpl implements CurrentRepository {
             preparedStatement = connection.prepareStatement(CREATE_NEW_CURRENT_ACCOUNT);
             preparedStatement.setInt(1, current.getAccountId());
             preparedStatement.setDouble(2, current.getOverdraftBalance());
-            preparedStatement.setDouble(3, current.getRemainingOverdraftBalance();
+            preparedStatement.setDouble(3, current.getRemainingOverdraftBalance());
             int rowCount = preparedStatement.executeUpdate();
 
             if (rowCount > 0) {
