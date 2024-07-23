@@ -23,6 +23,7 @@ public class BankingApplicationMain {
         Login login = null;
         Account account = null;
         boolean result = false;
+        int loginStatus;
 
         LoginService loginService = new LoginServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
@@ -48,21 +49,44 @@ public class BankingApplicationMain {
 
                 account = createNewAccount(customer, scanner);
                 result = saveAccountDetails(account, result, currentService, savingsService);
-                if(result){
+                if (result) {
                     System.out.println("Account created successfully with account id : " + account.getAccountId());
-                }
-                else{
+                } else {
                     System.out.println("Failed to create account");
                 }
             }
             if (mainMenuChoice == 2) {
-                System.out.println("Customer Login");
-                
+                loginStatus = loginService.validateLogin(customer.getCustomerId(), customer.getLogin().getPassword());
+                System.out.println("LoginStatus Value = " + loginStatus);
+                printLoginStatus(loginStatus);
+
             }
         } else {
             System.out.println("Thank you!");
         }
 
+    }
+
+    private static void printLoginStatus(int loginStatus) {
+        if (loginStatus == -1) {
+            System.out.println("Approval is pending from Bank Admin");
+        }
+        if (loginStatus == -2) {
+            System.out.println("Account is Locked");
+        }
+        if (loginStatus == -3) {
+            System.out.println("Login attempts are > 3 , your account is Locked");
+        }
+        if (loginStatus == 1 || loginStatus == 2 || loginStatus == 3) {
+            System.out.println("Invalid Password , attempts remaining :: " + (3 - loginStatus));
+        }
+        if (loginStatus == -4) {
+            System.out.println("Invalid CustomerId");
+        }
+        if (loginStatus == 0) {
+            System.out.println("Greetings From I_NB Bank");
+            
+        }
     }
 
     private static boolean saveAccountDetails(Account account, boolean result, CurrentService currentService, SavingsService savingsService) {
@@ -74,7 +98,7 @@ public class BankingApplicationMain {
                 result = savingsService.addNewSavingsAccount(savings);
             }
         }
-        return  result;
+        return result;
     }
 
     private static int printMainMenu(Scanner scanner) {

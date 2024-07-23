@@ -1,3 +1,4 @@
+DROP DATABASE i_nb;
 CREATE DATABASE i_nb;
 
 USE i_nb;
@@ -188,4 +189,18 @@ CREATE TABLE transaction_details(
     CONSTRAINT to_account_id_fk FOREIGN KEY(to_account_id) REFERENCES account_details(account_id),
     CONSTRAINT transaction_type_ck CHECK(transaction_type IN('TRANSFER','CHEQUE_CLEARANCE','OVERDRAFT_CHARES','INTEREST_CREDIT'))
 );
+
+TRUNCATE TABLE savings_account_details;
+TRUNCATE TABLE current_account_details;
+TRUNCATE TABLE account_details;
+TRUNCATE TABLE customer_details;
+TRUNCATE TABLE login_details;
+SELECT * FROM login_details;
+SELECT * FROM customer_details;
+SELECT * FROM account_details;
+
+SELECT * FROM login_details WHERE login_id = 
+(SELECT login_id FROM customer_details WHERE customer_id = 1);
+
+
 
