@@ -47,27 +47,34 @@ public class BankingApplicationMain {
                 System.out.println();
 
                 account = createNewAccount(customer, scanner);
-                if(account instanceof Current current){
-                    result = currentService.addNewCurrentAccount(current);
+                result = saveAccountDetails(account, result, currentService, savingsService);
+                if(result){
+                    System.out.println("Account created successfully with account id : " + account.getAccountId());
                 }
-                if(account instanceof  Savings savings){
-                    result = savingsService.addNewSavingsAccount(savings);
+                else{
+                    System.out.println("Failed to create account");
                 }
-                if (account != null && result) {
-                    System.out.println("Account created successfully with account id : " + account.getAccountId()); 
-                }else {
-                    System.out.println("Failed to create new account");
-                }
-
             }
             if (mainMenuChoice == 2) {
-              System.out.println("Customer Login");
-
+                System.out.println("Customer Login");
+                
             }
         } else {
             System.out.println("Thank you!");
         }
 
+    }
+
+    private static boolean saveAccountDetails(Account account, boolean result, CurrentService currentService, SavingsService savingsService) {
+        if (account != null) {
+            if (account instanceof Current current) {
+                result = currentService.addNewCurrentAccount(current);
+            }
+            if (account instanceof Savings savings) {
+                result = savingsService.addNewSavingsAccount(savings);
+            }
+        }
+        return  result;
     }
 
     private static int printMainMenu(Scanner scanner) {
@@ -117,7 +124,7 @@ public class BankingApplicationMain {
         return null;
     }
 
-    private static Account createNewAccount(Customer customer, Scanner scanner ) {
+    private static Account createNewAccount(Customer customer, Scanner scanner) {
         System.out.println("Account Menu");
         System.out.println("1. New Savings Account");
         System.out.println("2. New Current Account");
@@ -125,7 +132,7 @@ public class BankingApplicationMain {
         int accountChoice = scanner.nextInt();
 
         if (accountChoice == 1) {
-           Savings savings = new Savings(customer, "SAVINGS");
+            Savings savings = new Savings(customer, "SAVINGS");
             return savings;
         }
         if (accountChoice == 2) {
