@@ -1,6 +1,7 @@
 package com.ofss.main;
 
 import com.ofss.main.domain.Account;
+import com.ofss.main.domain.Current;
 import com.ofss.main.domain.Customer;
 import com.ofss.main.domain.Login;
 import com.ofss.main.domain.Savings;
@@ -101,7 +102,7 @@ public class BankingApplicationMain {
             return account;
         }
         if (accountChoice == 2) {
-            Account account = new Savings(customer, "CURRENT");
+            Account account = new Current(customer, "CURRENT");
             return account;
         }
         return null;
