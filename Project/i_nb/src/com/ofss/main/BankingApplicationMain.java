@@ -5,10 +5,14 @@ import com.ofss.main.domain.Current;
 import com.ofss.main.domain.Customer;
 import com.ofss.main.domain.Login;
 import com.ofss.main.domain.Savings;
+import com.ofss.main.service.CurrentService;
 import com.ofss.main.service.CustomerService;
 import com.ofss.main.service.LoginService;
+import com.ofss.main.service.SavingsService;
+import com.ofss.main.service.impl.CurrentServiceImpl;
 import com.ofss.main.service.impl.CustomerServiceImpl;
 import com.ofss.main.service.impl.LoginServiceImpl;
+import com.ofss.main.service.impl.SavingsServiceImpl;
 import java.util.Scanner;
 
 public class BankingApplicationMain {
@@ -17,28 +21,53 @@ public class BankingApplicationMain {
         Scanner scanner = new Scanner(System.in);
         Customer customer = null;
         Login login = null;
+        Account account = null;
+        boolean result = false;
+
         LoginService loginService = new LoginServiceImpl();
         CustomerService customerService = new CustomerServiceImpl();
+        CurrentService currentService = new CurrentServiceImpl();
+        SavingsService savingsService = new SavingsServiceImpl();
 
         int mainMenuChoice = printMainMenu(scanner);
         customer = menuOperations(mainMenuChoice, login, customer, scanner);
 
         //System.out.println(customer);
         if (customer != null) {
-            login = customer.getLogin();
-            login = loginService.createNewLogin(login);
-            System.out.println("Login created successfully!!");
-            //System.out.println(login);
-            customer = customerService.addNewCustomer(customer);
-            System.out.println("Customer created successfully");
+            if (mainMenuChoice == 1) {
+                login = customer.getLogin();
+                login = loginService.createNewLogin(login);
+                System.out.println("Login created successfully!!");
+                System.out.println(login);
+                customer = customerService.addNewCustomer(customer);
+                System.out.println("Customer created successfully");
 
-            System.out.println();
-            System.out.println("Your customerId :: " + customer.getCustomerId());
-            System.out.println();
+                System.out.println();
+                System.out.println("Your customerId :: " + customer.getCustomerId());
+                System.out.println();
 
+                account = createNewAccount(customer, scanner);
+                if(account instanceof Current current){
+                    result = currentService.addNewCurrentAccount(current);
+                }
+                if(account instanceof  Savings savings){
+                    result = savingsService.addNewSavingsAccount(savings);
+                }
+                if (account != null && result) {
+                    System.out.println("Account created successfully with account id : " + account.getAccountId()); 
+                }else {
+                    System.out.println("Failed to create new account");
+                }
+
+            }
+            if (mainMenuChoice == 2) {
+              System.out.println("Customer Login");
+
+            }
         } else {
             System.out.println("Thank you!");
         }
+
     }
 
     private static int printMainMenu(Scanner scanner) {
@@ -88,7 +117,7 @@ public class BankingApplicationMain {
         return null;
     }
 
-    private static Account createNewAccount(Customer customer, Scanner scanner) {
+    private static Account createNewAccount(Customer customer, Scanner scanner ) {
         System.out.println("Account Menu");
         System.out.println("1. New Savings Account");
         System.out.println("2. New Current Account");
@@ -96,12 +125,12 @@ public class BankingApplicationMain {
         int accountChoice = scanner.nextInt();
 
         if (accountChoice == 1) {
-            Account account = new Savings(customer, "SAVINGS");
-            return account;
+           Savings savings = new Savings(customer, "SAVINGS");
+            return savings;
         }
         if (accountChoice == 2) {
-            Account account = new Current(customer, "CURRENT");
-            return account;
+            Current current = new Current(customer, "CURRENT");
+            return current;
         }
         return null;
     }
