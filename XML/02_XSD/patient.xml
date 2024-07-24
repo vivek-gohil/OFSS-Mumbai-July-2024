@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:patient xmlns:tns="http://www.borntocode.com/patient"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.borntocode.com/patient patient.xsd "
+	id="123">
+	<tns:name>Test</tns:name>
+	<tns:age>0</tns:age>
+	<tns:dob>2001-01-01</tns:dob>
+	<tns:gender>M</tns:gender>
+	<tns:email>ghl_vivek@hotmail.com</tns:email>
+	<tns:email>borntocode2013@gmail.com</tns:email>
+	<tns:phone>9920728158</tns:phone>
+	<tns:payment>
+		<tns:insureance>
+			<tns:provider>HDFC ERGO</tns:provider>
+			<tns:limit>50000</tns:limit>
+		</tns:insureance>
+	</tns:payment>
+</tns:patient>

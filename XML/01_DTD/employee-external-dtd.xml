@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE employee SYSTEM "employee.dtd" >
+<employee>
+  <id>id</id>
+  <name>name</name>
+  <salary>salary</salary>
+  <email>email</email>
+  <address>
+  	<block>A Block</block>
+  	<street>F Street</street>
+  	<city>Mumbai</city>
+  	<pin>12345</pin>
+  </address>
+</employee>

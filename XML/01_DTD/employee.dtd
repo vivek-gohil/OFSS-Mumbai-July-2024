@@ -1,0 +1,11 @@
+<!ELEMENT employee (id,name,salary,(phone|email),(address)*)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT salary (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT address (block,street,city,pin)>
+<!ELEMENT block (#PCDATA)>
+<!ELEMENT street (#PCDATA)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT pin (#PCDATA)>
