@@ -5,10 +5,12 @@ import com.ofss.main.domain.Current;
 import com.ofss.main.domain.Customer;
 import com.ofss.main.domain.Login;
 import com.ofss.main.domain.Savings;
+import com.ofss.main.service.AccountService;
 import com.ofss.main.service.CurrentService;
 import com.ofss.main.service.CustomerService;
 import com.ofss.main.service.LoginService;
 import com.ofss.main.service.SavingsService;
+import com.ofss.main.service.impl.AccountServiceImpl;
 import com.ofss.main.service.impl.CurrentServiceImpl;
 import com.ofss.main.service.impl.CustomerServiceImpl;
 import com.ofss.main.service.impl.LoginServiceImpl;
@@ -29,6 +31,7 @@ public class BankingApplicationMain {
         CustomerService customerService = new CustomerServiceImpl();
         CurrentService currentService = new CurrentServiceImpl();
         SavingsService savingsService = new SavingsServiceImpl();
+        AccountService accountService = new AccountServiceImpl();
 
         int mainMenuChoice = printMainMenu(scanner);
         customer = menuOperations(mainMenuChoice, login, customer, scanner);
@@ -58,7 +61,11 @@ public class BankingApplicationMain {
             if (mainMenuChoice == 2) {
                 loginStatus = loginService.validateLogin(customer.getCustomerId(), customer.getLogin().getPassword());
                 System.out.println("LoginStatus Value = " + loginStatus);
-                printLoginStatus(loginStatus);
+                result =printLoginStatus(loginStatus);
+                if(result)
+                {
+                    printAccountList(customer.getCustomerId() , accountService);
+                }
 
             }
         } else {
@@ -67,26 +74,56 @@ public class BankingApplicationMain {
 
     }
 
-    private static void printLoginStatus(int loginStatus) {
+    private static final void printAccountList(int customerId, AccountService accountService, Scanner scanner){
+        int counter = 1;
+        for (Account account : accountService.getAllAccountsByCustomerId(customerId)) {
+               System.out.println(counter +  " => Account Number = " + account.getAccountId());
+               counter++;
+        }
+        if(counter == 1) {
+            System.out.println("Account Details");
+            Account account = accountService.getAllAccountsByCustomerId(customerId).get(0);
+            System.out.println("Account Id = " + account.getAccountId());
+            System.out.println("Account Type = " + account.getAccountType());
+            System.out.println("Balance = " + account.getBalance());
+        }
+        else{
+            System.out.println("Select your account ");
+            int accountCounter = scanner.nextInt();
+            Account account = accountService.getAllAccountsByCustomerId(customerId).get(counter-1);
+            System.out.println("Account Id = " + account.getAccountId());
+            System.out.println("Account Type = " + account.getAccountType());
+            System.out.println("Balance = " + account.getBalance());
+        }
+    }
+
+    private static boolean printLoginStatus(int loginStatus) {
         if (loginStatus == -1) {
             System.out.println("Approval is pending from Bank Admin");
+            return false;
         }
         if (loginStatus == -2) {
             System.out.println("Account is Locked");
+            return false;
         }
         if (loginStatus == -3) {
             System.out.println("Login attempts are > 3 , your account is Locked");
+            return false;
         }
         if (loginStatus == 1 || loginStatus == 2 || loginStatus == 3) {
             System.out.println("Invalid Password , attempts remaining :: " + (3 - loginStatus));
+            return false;
         }
         if (loginStatus == -4) {
             System.out.println("Invalid CustomerId");
+            return false;
         }
         if (loginStatus == 0) {
             System.out.println("Greetings From I_NB Bank");
+            return true;
             
         }
+        return false;
     }
 
     private static boolean saveAccountDetails(Account account, boolean result, CurrentService currentService, SavingsService savingsService) {

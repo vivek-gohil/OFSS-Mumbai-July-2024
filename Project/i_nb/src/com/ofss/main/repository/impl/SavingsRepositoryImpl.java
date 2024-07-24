@@ -13,7 +13,8 @@ public class SavingsRepositoryImpl implements SavingsRepository {
     private static final String driverName = "com.mysql.cj.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306/i_nb";
     private static final String userName = "root";
-    private static final String password = "Trupt!V!vek@143";
+    // private static final String password = "Trupt!V!vek@143";
+    private static final String password = "root";
 
     private Connection connection = null;
     private PreparedStatement preparedStatement = null;

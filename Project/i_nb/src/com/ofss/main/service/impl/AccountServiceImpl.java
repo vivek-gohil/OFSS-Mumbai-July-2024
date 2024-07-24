@@ -1,5 +1,7 @@
 package com.ofss.main.service.impl;
 
+import java.util.List;
+
 import com.ofss.main.domain.Account;
 import com.ofss.main.repository.AccountRepository;
 import com.ofss.main.repository.impl.AccountRepositoryImpl;
@@ -12,6 +14,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public int addNewAccount(Account account) {
        return accountRepository.addNewAccount(account);
+    }
+
+    @Override
+    public List<Account> getAllAccountsByCustomerId(int customerId) {
+       return accountRepository.getAllAccountsByCustomerId(customerId);
     }
 
 }
