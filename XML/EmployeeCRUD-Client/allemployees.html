@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Employee Table</title>
+
+</head>
+
+<body>
+    <h1>Employee List</h1>
+    <button onclick="loadEmployees()">Load Employees</button>
+    <div id="table-container">
+
+
+    </div>
+
+    <script>
+        // Example XML string (can be replaced with a URL to fetch XML data)
+        // const xmlString = `
+        // <employees>
+        //     <employee>
+        //         <name>John Doe</name>
+        //         <id>1</id>
+        //     </employee>
+        //     <employee>
+        //         <name>Jane Smith</name>
+        //         <id>2</id>
+        //     </employee>
+        // </employees>`;
+
+        function loadEmployees() {
+            // For testing purposes, we'll use the static XML string
+            // Replace this with fetch call if fetching from a server
+            fetch('http://localhost:8080/EmployeeCRUDAPI/')
+                .then(response => response.text())
+                .then(data => {
+                    // Parse XML response
+                    let parser = new DOMParser();
+                    let xmlDoc = parser.parseFromString(data, "text/xml");
+
+                    // Example: Output XML data to console
+                    console.log(data);
+                    console.log("----------------");
+                    console.log(xmlDoc);
+                    parseXML(xmlDoc);
+                })
+                .catch(error => console.error('Error fetching employees:', error));
+            //parseXML(xmlString);
+        }
+
+        function parseXML(xmlDoc) {
+            console.log("XML DOC");
+            console.log(xmlDoc);
+            // Extract employee data
+            const employee = xmlDoc.getElementsByTagName("employee");
+            console.log(employee);
+            // Create HTML table
+            let table = "<table border='1'><tr><th>ID</th><th>Name</th></tr>";
+
+            for (let i = 0; i < employee.length; i++) {
+                console.log("in table");
+                const id = employee[i].getElementsByTagName("id")[0].textContent;
+                const name = employee[i].getElementsByTagName("name")[0].textContent;
+                table += `<tr><td>${id}</td><td>${name}</td></tr>`;
+            }
+
+            table += "</table>";
+
+            console.log(table);
+            // Insert table into the div with id 'table-container'
+            document.getElementById("table-container").innerHTML = table;
+        }
+    </script>
+</body>
+
+</html>
