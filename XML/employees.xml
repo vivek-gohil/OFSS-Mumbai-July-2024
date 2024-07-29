@@ -1,0 +1,12 @@
+<employees>
+	<employee>
+		<id>101</id>
+		<name>Oracle</name>
+		<salary>70000</salary>
+	</employee>
+	<employee>
+		<id>102</id>
+		<name>Seema</name>
+		<salary>90000</salary>
+	</employee>
+</employees>

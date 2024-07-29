@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/employee"
+	xmlns:tns="http://www.example.org/employee"
+	elementFormDefault="qualified">
+	
+	<element name="employee" type="tns:Employee"/>
+	<complexType name="Employee">
+		<sequence>
+			<element name="id" type="tns:ID"/>
+			<element name="name" type="tns:String15Chars"/>
+			<element name="salary" type="double"/>
+		</sequence>	
+	</complexType>
+	<simpleType name="ID">
+		<restriction base="int">
+			<pattern value="[0-9]*"></pattern>
+		</restriction>
+	</simpleType>
+	<simpleType name="String15Chars">
+		<restriction base="string">
+			<maxLength value="15"/>
+		</restriction>
+	</simpleType>
+</schema>

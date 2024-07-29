@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT employee (id,name,salary)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT salary (#PCDATA)>
+
+=======
 <!ELEMENT employee (id,name,salary,(phone|email),(address)*)>
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT name (#PCDATA)>
@@ -9,3 +17,4 @@
 <!ELEMENT street (#PCDATA)>
 <!ELEMENT city (#PCDATA)>
 <!ELEMENT pin (#PCDATA)>
+>>>>>>> 8fea0d0e9c9311295dc4faff410f8765cf83e461
