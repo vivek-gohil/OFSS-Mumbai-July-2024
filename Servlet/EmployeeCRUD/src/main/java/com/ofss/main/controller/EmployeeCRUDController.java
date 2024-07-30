@@ -1,7 +1,6 @@
 package com.ofss.main.controller;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 
 import com.ofss.main.domain.Employee;
@@ -26,6 +25,58 @@ public class EmployeeCRUDController extends HttpServlet {
 	private EmployeeService employeeService = new EmployeeServiceImpl();
 
 	@Override
+	protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("in doOptions");
+		// Set CORS headers
+		response.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
+		response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		if (request.getParameter("employeeId") != null) {
+			int employeeId = Integer.valueOf(request.getParameter("employeeId"));
+			boolean result = employeeService.deleteEmployeeByEmployeeId(employeeId);
+			System.out.println(result);
+		}
+	}
+
+	@Override
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("Put method called");
+
+		// Set CORS headers
+		response.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
+		response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+
+		// Read XML data from request body
+		Employee newEmployee;
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Employee.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			newEmployee = (Employee) unmarshaller.unmarshal(request.getInputStream());
+		} catch (JAXBException e) {
+			throw new ServletException("Error reading XML data", e);
+		}
+
+		System.out.println(newEmployee);
+		// Add new employee to list
+		employeeService.updateEmployee(newEmployee);
+
+		// Send response
+		response.setStatus(HttpServletResponse.SC_OK);
+	}
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -35,25 +86,43 @@ public class EmployeeCRUDController extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setContentType("text/xml");
-		
-		try {
-			// Create a JAXBContext and Marshaller
-			JAXBContext context = JAXBContext.newInstance(EmployeeList.class);
-			Marshaller marshaller = context.createMarshaller();
 
-			// Format XML output
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		if (request.getParameter("employeeId") != null) {
+			int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+			Employee employee = employeeService.getEmployeeByEmployeeId(employeeId);
+			if (employee != null) {
+				try {
+					// Create a JAXBContext and Marshaller
+					JAXBContext context = JAXBContext.newInstance(Employee.class);
+					Marshaller marshaller = context.createMarshaller();
 
-			// Marshal to StringWriter
-			EmployeeList employeeList = new EmployeeList();
-			ArrayList<Employee> employeesFromDb = (ArrayList<Employee>) employeeService.getAllEmployees();
-			employeeList.setEmployeeList(employeesFromDb);
-			marshaller.marshal(employeeList, response.getWriter());
+					// Marshal to StringWriter
+					marshaller.marshal(employee, response.getWriter());
 
-		} catch (JAXBException e) {
-			e.printStackTrace();
+				} catch (JAXBException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+
+			try {
+				// Create a JAXBContext and Marshaller
+				JAXBContext context = JAXBContext.newInstance(EmployeeList.class);
+				Marshaller marshaller = context.createMarshaller();
+
+				// Format XML output
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+				// Marshal to StringWriter
+				EmployeeList employeeList = new EmployeeList();
+				ArrayList<Employee> employeesFromDb = (ArrayList<Employee>) employeeService.getAllEmployees();
+				employeeList.setEmployeeList(employeesFromDb);
+				marshaller.marshal(employeeList, response.getWriter());
+
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 	@Override
