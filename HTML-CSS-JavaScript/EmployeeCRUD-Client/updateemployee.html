@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee CRUD Client Application</title>
+    <script src="main.js"></script>
+</head>
+<body onload="readEmployeeId()">
+    <h3>Update Employee</h3>
+    <form id="myForm" onsubmit="updateEmployeeDetails(event)">
+        <table>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" id="firstName" name="firstName"></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" id="lastName" name="lastName"></td>
+            </tr>
+            <tr>
+                <td>Salary</td>
+                <td><input type="text" id="salary" name="salary"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Update"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
