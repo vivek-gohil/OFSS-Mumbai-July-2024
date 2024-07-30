@@ -43,8 +43,7 @@ function saveEmployeeToDatabase(xmlString) {
         headers: {
             'Content-Type': 'text/xml',
         },
-        body: xmlString,
-        mode: "no-cors"
+        body: xmlString
     })
         .then(response => {
             console.log(response);
@@ -111,8 +110,20 @@ function updateEmployee(employeeId) {
 
 function deleteEmployee(employeeId) {
     console.log(employeeId);
+    deleteEmployeeFromDatabase(employeeId);
 }
 
+function deleteEmployeeFromDatabase(employeeId) {
+    // DELETE request to create a delete employee
+    fetch('http://localhost:8080/EmployeeCRUD/EmployeeCRUDController?employeeId=' + employeeId, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            console.log(response);
+            window.location.replace('allemployees.html');
+        })
+        .catch(error => console.error('Error creating employee:', error));
+}
 
 function readEmployeeId() {
     // Get the current URL
@@ -218,6 +229,7 @@ function updateEmployeeToDatabase(xmlString) {
         })
         .catch(error => {
             alert("Exception !!")
-            console.error('Error creating employee:', error) });
+            console.error('Error creating employee:', error)
+        });
 
 }
