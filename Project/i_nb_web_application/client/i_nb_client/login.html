@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i_nb bank</title>
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <h3>Customer Login</h3>
+    <hr>
+    <form onsubmit="doLogin(event)">
+        <table>
+            <tr>
+                <td>Customer Id</td>
+                <td><input type="text" id="customerId" name="customerId"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" id="password" name="password"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Login"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><p id="message"></p></td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>

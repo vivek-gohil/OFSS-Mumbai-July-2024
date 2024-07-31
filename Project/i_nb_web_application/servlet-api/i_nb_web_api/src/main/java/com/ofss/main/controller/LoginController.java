@@ -45,8 +45,8 @@ public class LoginController extends HttpServlet {
 
 		int loginStatus = loginService.validateLogin(customer.getCustomerId(), login.getPassword());
 		System.out.println(loginStatus);
-		response.getWriter().write(loginStatus);
-
+		response.getWriter().print(loginStatus);
+		response.setStatus(HttpServletResponse.SC_FOUND);
 	}
 
 }
