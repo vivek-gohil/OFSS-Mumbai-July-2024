@@ -1,5 +1,8 @@
 package com.ofss.main.domain;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Customer {
 
     private int customerId;
